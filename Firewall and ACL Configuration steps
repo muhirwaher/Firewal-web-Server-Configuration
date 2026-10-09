@@ -1,0 +1,42 @@
+Configuring Firewall web traffic
+
+sudo firewall-cmd --permanent --add-service=http
+sudo firewall-cmd --permanent --add-service=https
+sudo firewall-cmd --reload
+sudo firewall-cmd --list-all
+
+Configuring  web server firewall commands steps
+
+# Allow SSH before enabling the firewall
+sudo ufw allow 22/tcp
+
+# Allow web traffic
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+
+# Set default policies
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+
+# Enable firewall
+sudo ufw enable
+
+# Verify configuration
+sudo ufw status verbose
+
+
+Confguring a Cisco Switch ACL commands
+enable 
+configure terminal
+
+ip access-list standard MANAGEMENT-ACCESS
+ permit 192.168.1.0 0.0.0.255
+ deny any
+
+line vty 0 4
+ access-class MANAGEMENT-ACCESS in
+ transport input ssh
+
+end
+show access-lists
+show running-config
